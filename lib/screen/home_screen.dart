@@ -1,3 +1,6 @@
+import 'package:cw_calendar_tr11/component/calendar.dart';
+import 'package:cw_calendar_tr11/component/today_banner.dart';
+import 'package:cw_calendar_tr11/const/color.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -9,47 +12,49 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime? selectedDay;
+  DateTime selectedDay=DateTime.utc(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day
+      );
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
+
       body: SafeArea(
-        child: TableCalendar(
-            focusedDay: DateTime(2026,8,12),
-            firstDay: DateTime(1800),
-            lastDay: DateTime(3000),
-          onDaySelected: (DateTime selectedDayK, DateTime focusedDayK){
-              print(selectedDayK);
-              print(focusedDayK);
-
-              setState(() {
-                this.selectedDay=selectedDayK;
-              });
-        },
-          selectedDayPredicate: (DateTime date ){
-
-              if(selectedDay==null){
-                return false;
-              }
-
-              return date.isAtSameMomentAs(selectedDay!);
-          },
-
-          headerStyle: HeaderStyle(
-            formatButtonVisible: false,
-            titleCentered: true,
-            titleTextStyle: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w700,
+        child: Column(
+          children: [
+            Calendar(
+              focusedDay: DateTime(2026,8,12),
+              onDaySelected: onDaySelected,
+              selectedDayPredicate : selectedDayPredicate,
             ),
-          ),
-
-          calendarStyle: CalendarStyle(
-            
-          ),
-        ),
+            TodayBanner(
+                selectedDay: selectedDay,
+              taskCount: 0,
+            )
+          ],
+        )
       ),
     );
   }
+  
+  void onDaySelected  (DateTime selectedDayK, DateTime focusedDayK){
+      setState(() {
+      this.selectedDay=selectedDayK;
+      });
+  }
+
+  bool selectedDayPredicate (DateTime date ){
+
+    if(selectedDay==null){
+      return false;
+    }
+
+    return date.isAtSameMomentAs(selectedDay!);
+  }
+
 }
