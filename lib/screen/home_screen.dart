@@ -1,4 +1,5 @@
 import 'package:cw_calendar_tr11/component/calendar.dart';
+import 'package:cw_calendar_tr11/component/schedule_card.dart';
 import 'package:cw_calendar_tr11/component/today_banner.dart';
 import 'package:cw_calendar_tr11/const/color.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
             TodayBanner(
                 selectedDay: selectedDay,
               taskCount: 0,
+            ),
+            Expanded(
+              child: ScheduleCard(
+
+              )
             )
           ],
         )
