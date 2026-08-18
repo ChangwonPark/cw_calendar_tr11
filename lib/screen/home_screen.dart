@@ -21,9 +21,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            showModalBottomSheet(
+                context: context,
+                builder: (_){
+                  return Container(
+                    color: Colors.yellow,
+                    height: 400,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: Colors.grey[300]
+                          ),
+                          cursorColor: Colors.grey,
+                        )
+                      ],
+                    ),
+                  );
+                }
+            );
+          },
+        backgroundColor: primaryColor,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
 
       body: SafeArea(
         child: Column(
