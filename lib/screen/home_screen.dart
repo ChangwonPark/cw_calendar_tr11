@@ -38,9 +38,19 @@ class _HomeScreenState extends State<HomeScreen> {
               taskCount: 0,
             ),
             Expanded(
-              child: ScheduleCard(
-
-              )
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0,right: 16.0,top: 16.0),
+                child: ListView(
+                  children: [
+                    ScheduleCard(
+                        startTime: DateTime(2026,8,22,11),
+                        endTime: DateTime(2026,8,22,12),
+                        content: '플러터 앱 개발하여 많이 많이 팔기',
+                        color: Colors.blue,
+                    )
+                  ],
+                ),
+              ),
             )
           ],
         )
