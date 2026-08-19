@@ -1,4 +1,5 @@
 import 'package:cw_calendar_tr11/component/calendar.dart';
+import 'package:cw_calendar_tr11/component/custom_text_field.dart';
 import 'package:cw_calendar_tr11/component/schedule_card.dart';
 import 'package:cw_calendar_tr11/component/today_banner.dart';
 import 'package:cw_calendar_tr11/const/color.dart';
@@ -32,14 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 400,
                     child: Column(
                       children: [
-                        TextFormField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            filled: true,
-                            fillColor: Colors.grey[300]
-                          ),
-                          cursorColor: Colors.grey,
-                        )
+                        CustomTextField()
                       ],
                     ),
                   );
