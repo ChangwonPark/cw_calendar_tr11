@@ -33,7 +33,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 400,
                     child: Column(
                       children: [
-                        CustomTextField()
+                        Row(
+                          children: [
+                            Expanded(
+                                child: CustomTextField()
+                            ),
+                            SizedBox(width: 16.0,),
+                            Expanded(
+                                child: CustomTextField()
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   );
