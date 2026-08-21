@@ -28,23 +28,39 @@ class _HomeScreenState extends State<HomeScreen> {
             showModalBottomSheet(
                 context: context,
                 builder: (_){
-                  return Container(
-                    color: Colors.yellow,
-                    height: 400,
-                    child: Column(
-                      children: [
-                        Row(
+                  return SafeArea(
+                    bottom: true,
+                    child: Container(
+                      color: Colors.yellow,
+                      height: 400,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0,right: 8.0, top: 16.0),
+                        child: Column(
                           children: [
-                            Expanded(
-                                child: CustomTextField()
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: CustomTextField(
+                                      label: '시작시간',
+                                    )
+                                ),
+                                SizedBox(width: 16.0,),
+                                Expanded(
+                                    child: CustomTextField(
+                                      label: '종료시간'
+                                    )
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 16.0,),
                             Expanded(
-                                child: CustomTextField()
-                            ),
+                              child: CustomTextField(
+                                  label: '내용',
+                                expand: true,
+                              ),
+                            )
                           ],
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                   );
                 }
