@@ -33,7 +33,8 @@ class CustomTextField extends StatelessWidget {
         if(expand)
           Expanded(
               child: renderTextFormField()
-          )
+          ),
+
       ],
     );
   }
