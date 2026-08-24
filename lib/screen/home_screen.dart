@@ -1,10 +1,12 @@
 import 'package:cw_calendar_tr11/component/calendar.dart';
 import 'package:cw_calendar_tr11/component/custom_text_field.dart';
+import 'package:cw_calendar_tr11/component/scheduleBottomSheett.dart';
 import 'package:cw_calendar_tr11/component/schedule_card.dart';
 import 'package:cw_calendar_tr11/component/today_banner.dart';
 import 'package:cw_calendar_tr11/const/color.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,41 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             showModalBottomSheet(
                 context: context,
                 builder: (_){
-                  return SafeArea(
-                    bottom: true,
-                    child: Container(
-                      color: Colors.yellow,
-                      height: 400,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0,right: 8.0, top: 16.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: CustomTextField(
-                                      label: '시작시간',
-                                    )
-                                ),
-                                SizedBox(width: 16.0,),
-                                Expanded(
-                                    child: CustomTextField(
-                                      label: '종료시간'
-                                    )
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                              child: CustomTextField(
-                                  label: '내용',
-                                expand: true,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  return Schedulebottomsheett();
                 }
             );
           },
