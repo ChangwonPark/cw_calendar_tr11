@@ -88,10 +88,12 @@ typedef OnColorSelected = void Function(String color);
 class _Categories extends StatelessWidget {
 
   final String selectedColor;
+  final VoidCallback onTap;
 
   const _Categories({
     super.key,
-    required this.selectedColor
+    required this.selectedColor,
+    required this.onTap
   });
 
   @override
