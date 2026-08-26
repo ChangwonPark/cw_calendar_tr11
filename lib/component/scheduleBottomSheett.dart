@@ -30,6 +30,12 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
               SizedBox(height: 16.0,),
               _Categories(
                 selectedColor: selectedColor,
+                onTap: (String color){
+                  print('onTap');
+                  setState(() {
+                    selectedColor=color;
+                  });
+                },
               ),
               SizedBox(height: 8.0,),
               _SaveButton(),
@@ -88,7 +94,7 @@ typedef OnColorSelected = void Function(String color);
 class _Categories extends StatelessWidget {
 
   final String selectedColor;
-  final VoidCallback onTap;
+  final OnColorSelected onTap;
 
   const _Categories({
     super.key,
@@ -104,7 +110,7 @@ class _Categories extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0),
             child: GestureDetector(
               onTap: (){
-
+                onTap(e);
               },
               child: Container(
                 decoration: BoxDecoration(
