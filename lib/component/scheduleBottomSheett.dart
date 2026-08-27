@@ -31,7 +31,7 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
               _Categories(
                 selectedColor: selectedColor,
                 onTap: (String color){
-                  print('onTap');
+                  //print('onTap');
                   setState(() {
                     selectedColor=color;
                   });
