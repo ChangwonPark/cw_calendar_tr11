@@ -24,16 +24,25 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   Map<DateTime, List<Schedule>> schedules = {
-    DateTime(2026, 8, 22): [
+    DateTime.utc(2026, 8, 22): [
       Schedule(
       id: 1,
       startTime: 11,
       endTime: 12,
       content: '플러터 공부하기',
-      date: DateTime(2026,8,22),
-      color: categoryColors[1],
-      createdAt: DateTime.now(),
+      date: DateTime.utc(2026,8,22),
+      color: categoryColors[0],
+      createdAt: DateTime.now().toUtc(),
     ),
+      Schedule(
+        id: 2,
+        startTime: 14,
+        endTime: 16,
+        content: 'NodeJS 공부하기',
+        date: DateTime.utc(2026,8,22),
+        color: categoryColors[3],
+        createdAt: DateTime.now().toUtc(),
+      ),
    ],
   };
 
@@ -65,16 +74,29 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-                child: ListView(
-                  children: [
-                    ScheduleCard(
-                      startTime: DateTime(2026, 8, 22, 11),
-                      endTime: DateTime(2026, 8, 22, 12),
-                      content: '플러터 앱 개발하여 많이 많이 팔기',
-                      color: Colors.blue,
-                    ),
-                  ],
+                child: ListView.builder(
+                  itemCount: ,
+                    itemBuilder: itemBuilder
                 ),
+
+
+                // child: ListView(
+                //   children: schedules.containsKey(selectedDay)
+                //       ? schedules[selectedDay]!.map(
+                //       (e)=> ScheduleCard(
+                //         startTime: e.startTime,
+                //         endTime: e.endTime,
+                //         content: e.content,
+                //         color: Color(
+                //           int.parse(
+                //             'FF${e.color}',
+                //             radix: 16,
+                //           )
+                //         ),
+                //       )
+                //   ).toList()
+                //       : []
+                // ),
               ),
             ),
           ],
