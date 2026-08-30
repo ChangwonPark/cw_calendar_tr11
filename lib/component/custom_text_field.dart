@@ -7,11 +7,15 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   final bool  expand;
   final String label;
+  final FormFieldSetter<String> onSaved;
+  final FormFieldValidator<String> validator;
 
   const CustomTextField({
     super.key,
     required this.label,
     this.expand=false,
+    required this.onSaved,
+    required this.validator,
   });
 
   @override
@@ -45,6 +49,15 @@ class CustomTextField extends StatelessWidget {
           filled: true,
           fillColor: Colors.grey[300]
       ),
+
+      /// 저장했을때
+      onSaved: onSaved,
+      // onSaved: (String? val){
+      //   print(val);
+      // },
+      /// 검증 할때 로직
+      validator: validator,
+
       cursorColor: Colors.grey,
       maxLines: expand ? null : 1,
       minLines: expand ? null : 1,

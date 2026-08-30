@@ -26,24 +26,24 @@ class _HomeScreenState extends State<HomeScreen> {
   Map<DateTime, List<Schedule>> schedules = {
     DateTime.utc(2026, 8, 22): [
       Schedule(
-      id: 1,
-      startTime: 11,
-      endTime: 12,
-      content: '플러터 공부하기',
-      date: DateTime.utc(2026,8,22),
-      color: categoryColors[0],
-      createdAt: DateTime.now().toUtc(),
-    ),
+        id: 1,
+        startTime: 11,
+        endTime: 12,
+        content: '플러터 공부하기',
+        date: DateTime.utc(2026, 8, 22),
+        color: categoryColors[0],
+        createdAt: DateTime.now().toUtc(),
+      ),
       Schedule(
         id: 2,
         startTime: 14,
         endTime: 16,
         content: 'NodeJS 공부하기',
-        date: DateTime.utc(2026,8,22),
+        date: DateTime.utc(2026, 8, 22),
         color: categoryColors[3],
         createdAt: DateTime.now().toUtc(),
       ),
-   ],
+    ],
   };
 
   @override
@@ -74,12 +74,75 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-                child: ListView.builder(
-                  itemCount: ,
-                    itemBuilder: itemBuilder
+
+                ///  ListView.separated 로 스케쥴카드 사이 여유주기
+                ///  .seperated도 .builder랑 itemCount, itemBuilder 필드 공유
+                ///  추가로 separatorBuilder: 콜백함수 필드 정의
+                ///  itemBulider 가 실행될때 마다 separatorBuilder 한번씩 실행
+                ///  스케쥴 카드 사이 여유 만드는 위젯을 반환 return SizedBox(height: 16,)
+                ///  schedules 0번과 1번 인덱스 사이 sperator의  index는 당연히  0번 index
+                child: ListView.separated(
+                  itemCount: schedules.containsKey(selectedDay)
+                      ? schedules[selectedDay]!.length
+                      : 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    final selectedSchedule = schedules[selectedDay]!;
+
+                    final schechuleModel = selectedSchedule[index];
+
+                    return ScheduleCard(
+                      startTime: schechuleModel.startTime,
+                      endTime: schechuleModel.endTime,
+                      content: schechuleModel.content,
+                      color: Color(
+                        int.parse(
+                          'FF${schechuleModel.color}',
+                          radix: 16
+                        )
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index){
+                    return SizedBox(height: 16,);
+                  },
                 ),
 
 
+
+
+                ///  ListView.builder 사용하여 Lazy loading 하는 방법
+                // 하드웨어 적게 사용하고 속도도 빨라요
+                // child: ListView.builder(
+                //   itemCount: schedules.containsKey(selectedDay)
+                //       ? schedules[selectedDay]!.length
+                //       : 0,
+                //   itemBuilder: (BuildContext context, int index) {
+                //     /// 선택된 날짜에 해당되는 일정 리스트로 저장
+                //     /// List<Schedule> 로 가져온다
+                //     final selectedSchedule = schedules[selectedDay]!;
+                //
+                //     final schechuleModel = selectedSchedule[index];
+                //
+                //     return ScheduleCard(
+                //       startTime: schechuleModel.startTime,
+                //       endTime: schechuleModel.endTime,
+                //       content: schechuleModel.content,
+                //       color: Color(
+                //         int.parse(
+                //           'FF${schechuleModel.color}',
+                //           radix: 16
+                //         )
+                //       ),
+                //     );
+                //   },
+                // ),
+
+
+                /// ListView 사용하여 한방에 로딩 하기 로직
+                //ListView 의 문제점은 children에 있는 위젯들을 한번에 그려내고,
+                // 그리고, 그것을 메모리에 다 들고 있습니다.
+                // (시간도 많이 걸리고, 메모리도 많이 차지하고 있어요)
+                //
                 // child: ListView(
                 //   children: schedules.containsKey(selectedDay)
                 //       ? schedules[selectedDay]!.map(
@@ -97,6 +160,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 //   ).toList()
                 //       : []
                 // ),
+
+
+
               ),
             ),
           ],
