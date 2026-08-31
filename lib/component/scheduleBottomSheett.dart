@@ -23,9 +23,17 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
           child: Column(
             children: [
-              _Time(),
+              _Time(
+                onStartSaved: (String? newValue) {  },
+                onEndSaved: (String? newValue) {  },
+                onStartValidate: (String? value) {  },
+                onEndValidate: (String? value) {  },
+              ),
               SizedBox(height: 16.0),
-              _Contents(),
+              _Contents(
+                onSaved: (String? newValue) {  },
+                onValidate: (String? value) {  },
+              ),
               SizedBox(height: 16.0),
               _Categories(
                 selectedColor: selectedColor,
@@ -63,7 +71,7 @@ class _Time extends StatelessWidget {
   });
 
   /// 이제 개념 익혔으면, onSaved, validator 위로 올리기
-  /// 버튼도 지우고
+  /// 버튼도 지우고, GlobalKey() 객체도 지우고, Form도 지우고
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -73,28 +81,24 @@ class _Time extends StatelessWidget {
             Expanded(
               child: CustomTextField(
                 label: '시작시간',
-                onSaved: ,
-                validator:
+                onSaved: onStartSaved,
+                validator: onStartValidate,
               ),
             ),
             SizedBox(width: 16.0),
             Expanded(
               child: CustomTextField(
                 label: '종료시간',
-                onSaved: ,
-                validator:
+                onSaved: onEndSaved,
+                validator: onEndValidate,
               ),
             ),
           ],
         ),
-
       ],
     );
   }
 }
-
-
-
 
 /// onSaved, validator 개념 익히기 코드
 //   @override
@@ -149,7 +153,14 @@ class _Time extends StatelessWidget {
 // }
 
 class _Contents extends StatelessWidget {
-  const _Contents({super.key});
+  final FormFieldSetter<String> onSaved;
+  final FormFieldValidator<String> onValidate;
+
+  const _Contents({
+    super.key,
+    required this.onSaved,
+    required this.onValidate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -157,8 +168,8 @@ class _Contents extends StatelessWidget {
       child: CustomTextField(
         label: '내용',
         expand: true,
-        onSaved: (String? val) {},
-        validator: (String? val) {},
+        onSaved: onSaved,
+        validator: onValidate,
       ),
     );
   }
