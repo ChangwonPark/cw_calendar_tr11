@@ -11,6 +11,15 @@ class Schedulebottomsheett extends StatefulWidget {
 }
 
 class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
+  final GlobalKey<FormState> formKey=GlobalKey();
+
+  int? startTime;
+  int? endTime;
+  String? content;
+  String? category;
+
+
+
   String selectedColor = categoryColors.first;
 
   @override
@@ -21,37 +30,89 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
-          child: Column(
-            children: [
-              _Time(
-                onStartSaved: (String? newValue) {  },
-                onEndSaved: (String? newValue) {  },
-                onStartValidate: (String? value) {  },
-                onEndValidate: (String? value) {  },
-              ),
-              SizedBox(height: 16.0),
-              _Contents(
-                onSaved: (String? newValue) {  },
-                onValidate: (String? value) {  },
-              ),
-              SizedBox(height: 16.0),
-              _Categories(
-                selectedColor: selectedColor,
-                onTap: (String color) {
-                  //print('onTap');
-                  setState(() {
-                    selectedColor = color;
-                  });
-                },
-              ),
-              SizedBox(height: 8.0),
-              _SaveButton(),
-            ],
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                _Time(
+                  onStartSaved: onStartTimeSaved,
+                  onEndSaved: onEndTimeSaved,
+                  onStartValidate: onStartTimeValidated,
+                  onEndValidate: onEndTimeValidated,
+                ),
+                SizedBox(height: 16.0),
+                _Contents(
+                  onSaved: onContentSaved,
+                  onValidate: onContentValidated,
+                ),
+                SizedBox(height: 16.0),
+                _Categories(
+                  selectedColor: selectedColor,
+                  onTap: (String color) {
+                    //print('onTap');
+                    setState(() {
+                      selectedColor = color;
+                    });
+                  },
+                ),
+                SizedBox(height: 8.0),
+                _SaveButton(
+                  onPressed: onSavePressed,
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  void onStartTimeSaved(String? val){
+
+    if(val==null){
+      return;
+    }
+
+    startTime=int.parse(val);
+
+  }
+
+  void onEndTimeSaved(String? val){
+    if(val==null){
+      return;
+    }
+
+    endTime=int.parse(val);
+
+  }
+
+  String? onStartTimeValidated(String? val){
+
+  }
+
+  String? onEndTimeValidated(String? val){
+
+  }
+
+
+  void onContentSaved(String? val){
+    if(val==null){
+      return;
+    }
+    content=val;
+
+  }
+
+  String? onContentValidated(String? val){
+
+  }
+
+  void onSavePressed(){
+    formKey.currentState!.save();
+
+
+  }
+
 }
 
 class _Time extends StatelessWidget {
@@ -98,6 +159,8 @@ class _Time extends StatelessWidget {
       ],
     );
   }
+
+
 }
 
 /// onSaved, validator 개념 익히기 코드
@@ -218,7 +281,12 @@ class _Categories extends StatelessWidget {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton({super.key});
+  final VoidCallback onPressed;
+
+  const _SaveButton({
+    super.key,
+    required this.onPressed
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +298,7 @@ class _SaveButton extends StatelessWidget {
               backgroundColor: primaryColor,
               foregroundColor: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: onPressed,
             child: Text('저장'),
           ),
         ),
