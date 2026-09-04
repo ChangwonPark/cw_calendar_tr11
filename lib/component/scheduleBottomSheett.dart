@@ -110,6 +110,10 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
   void onSavePressed(){
     formKey.currentState!.save();
 
+    print(startTime);
+    print(endTime);
+    print(content);
+    print(category);
 
   }
 
