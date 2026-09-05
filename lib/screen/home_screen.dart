@@ -50,13 +50,58 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
+        onPressed: () async {
+          final schedule = await showModalBottomSheet<Schedule>(
             context: context,
             builder: (_) {
-              return Schedulebottomsheett();
+              return Schedulebottomsheett(
+                selectedDay : selectedDay
+              );
             },
           );
+
+          if(schedule==null){
+            return;
+          }
+
+          /// schedules update 하는 방법 <고난이도>
+          setState(() {
+            // schedules = { ...schedules, ... } → 기존 Map 전체를 펼쳐서 새 Map을 만든다
+             schedules={
+               ...schedules,
+
+               //다시 정리하면, schedules= 을 update하는데,
+               // ...schedules 펼치고, schedule.date:[...] 날짜에 리스트를 추가하는데,
+               // schedule.date 날짜가 기존것에 있으면,
+               // ...schedules[schedule.date]! 그날짜의 스케쥴을 가져오고,
+               // 그뒤에 schedule 스케쥴을 추가해라.
+               // 그런데, 동일날짜가 없으면,  바로 schedule 스케쥴을 추가해라
+
+               schedule.date : [
+               if(schedules.containsKey(schedule.date)) ...schedules[schedule.date]!,
+               schedule,
+               ]
+
+             };
+          });
+
+          // /// schedules update 하는 방법 <쉬운거>
+          // final dateExists=schedules.containsKey(schedule.date);
+          //
+          // final List<Schedule> existingSchedules =
+          // dateExists? schedules[schedule.date]!:[];
+          //
+          // /// [Schedule1,Schedule2] 스케쥴1 이 있었으면, 스케쥴2 추가
+          // /// [Schedule2] 스케쥴이 아예 없었으면, 스케쥴 2 만 추가
+          // existingSchedules.add(schedule);
+          //
+          // setState(() {
+          //   schedules= {
+          //     ...schedules,
+          //     schedule.date:existingSchedules,
+          //   };
+          // });
+
         },
         backgroundColor: primaryColor,
         child: Icon(Icons.add, color: Colors.white),

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../Model/schedule.dart';
 import '../const/color.dart';
 import 'custom_text_field.dart';
 
 class Schedulebottomsheett extends StatefulWidget {
-  const Schedulebottomsheett({super.key});
+
+  final DateTime selectedDay;
+
+  const Schedulebottomsheett({
+    super.key,
+    required this.selectedDay
+  });
 
   @override
   State<Schedulebottomsheett> createState() => _SchedulebottomsheettState();
@@ -16,7 +23,7 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
   int? startTime;
   int? endTime;
   String? content;
-  String? category;
+
 
 
 
@@ -87,10 +94,41 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
   }
 
   String? onStartTimeValidated(String? val){
+    if(val==null){
+      return "값을 입력해줘";
+    }
+
+    if(int.tryParse(val)==null){
+      return " 숫자를 입력해줘";
+    }
+
+    final time=int.parse(val);
+
+    if(time>24 || time < 0){
+      return '0과 24 사이의 숫자를 입력해줘';
+    }
+
+    return null ; // 아무 에러가 없다라고 validate 하는 코드
 
   }
 
+
   String? onEndTimeValidated(String? val){
+    if(val==null){
+      return "값을 입력해줘";
+    }
+
+    if(int.tryParse(val)==null){
+      return " 숫자를 입력해줘";
+    }
+
+    final time=int.parse(val);
+
+    if(time >24||time < 0){
+      return '0 과 24 사이의 숫자를 입력해줘';
+    }
+
+    return null ; // 아무 에러가 없다라고 validate 하는 코드
 
   }
 
@@ -105,16 +143,40 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
 
   String? onContentValidated(String? val){
 
+    if(val==null){
+      return '내용을 입력해줘';
+    }
+
+    if(val.length<5){
+      return '5자 이상을 입력해줘';
+    }
+
+    return null;
   }
 
   void onSavePressed(){
-    formKey.currentState!.save();
 
-    print(startTime);
-    print(endTime);
-    print(content);
-    print(category);
+    final isValid= formKey.currentState!.validate();
 
+    if(isValid) {
+      formKey.currentState!.save();
+
+      final schedule = Schedule(
+        id:999,
+        startTime: startTime!,
+        endTime: endTime!,
+        content : content!,
+        color :  selectedColor,
+        date: widget.selectedDay,
+        createdAt: DateTime.now().toUtc(),
+      );
+      // print(startTime);
+      // print(endTime);
+      // print(content);
+
+      Navigator.of(context).pop(schedule);
+
+    }
   }
 
 }
