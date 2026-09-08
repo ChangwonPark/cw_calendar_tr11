@@ -1,9 +1,12 @@
-class Schedule {
+import 'package:drift/drift.dart';
+
+class Schedule extends Table  {
   /// 들고 있을값들 먼저 리스트업하고
   /// 그다음 property, 즉 필드를 만들기
   /// -----------------------------------
   /// 1) 식별 가능한 ID
-  final int id;
+  final int id1;
+  IntColumn get id=>integer()();
 
   /// 2) 시작시간
   final int startTime;
