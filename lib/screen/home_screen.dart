@@ -23,35 +23,35 @@ class _HomeScreenState extends State<HomeScreen> {
     DateTime.now().day,
   );
 
-  Map<DateTime, List<Schedule>> schedules = {
-    DateTime.utc(2026, 8, 22): [
-      Schedule(
-        id: 1,
-        startTime: 11,
-        endTime: 12,
-        content: '플러터 공부하기',
-        date: DateTime.utc(2026, 8, 22),
-        color: categoryColors[0],
-        createdAt: DateTime.now().toUtc(),
-      ),
-      Schedule(
-        id: 2,
-        startTime: 14,
-        endTime: 16,
-        content: 'NodeJS 공부하기',
-        date: DateTime.utc(2026, 8, 22),
-        color: categoryColors[3],
-        createdAt: DateTime.now().toUtc(),
-      ),
-    ],
-  };
+  // Map<DateTime, List<ScheduleTable>> schedules = {
+  //   DateTime.utc(2026, 8, 22): [
+  //     ScheduleTable(
+  //       id: 1,
+  //       startTime: 11,
+  //       endTime: 12,
+  //       content: '플러터 공부하기',
+  //       date: DateTime.utc(2026, 8, 22),
+  //       color: categoryColors[0],
+  //       createdAt: DateTime.now().toUtc(),
+  //     ),
+  //     ScheduleTable(
+  //       id: 2,
+  //       startTime: 14,
+  //       endTime: 16,
+  //       content: 'NodeJS 공부하기',
+  //       date: DateTime.utc(2026, 8, 22),
+  //       color: categoryColors[3],
+  //       createdAt: DateTime.now().toUtc(),
+  //     ),
+  //   ],
+  // };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final schedule = await showModalBottomSheet<Schedule>(
+          final schedule = await showModalBottomSheet<ScheduleTable>(
             context: context,
             builder: (_) {
               return Schedulebottomsheett(
@@ -65,25 +65,25 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           /// schedules update 하는 방법 <고난이도>
-          setState(() {
-            // schedules = { ...schedules, ... } → 기존 Map 전체를 펼쳐서 새 Map을 만든다
-             schedules={
-               ...schedules,
-
-               //다시 정리하면, schedules= 을 update하는데,
-               // ...schedules 펼치고, schedule.date:[...] 날짜에 리스트를 추가하는데,
-               // schedule.date 날짜가 기존것에 있으면,
-               // ...schedules[schedule.date]! 그날짜의 스케쥴을 가져오고,
-               // 그뒤에 schedule 스케쥴을 추가해라.
-               // 그런데, 동일날짜가 없으면,  바로 schedule 스케쥴을 추가해라
-
-               schedule.date : [
-               if(schedules.containsKey(schedule.date)) ...schedules[schedule.date]!,
-               schedule,
-               ]
-
-             };
-          });
+          // setState(() {
+          //   // schedules = { ...schedules, ... } → 기존 Map 전체를 펼쳐서 새 Map을 만든다
+          //    schedules={
+          //      ...schedules,
+          //
+          //      //다시 정리하면, schedules= 을 update하는데,
+          //      // ...schedules 펼치고, schedule.date:[...] 날짜에 리스트를 추가하는데,
+          //      // schedule.date 날짜가 기존것에 있으면,
+          //      // ...schedules[schedule.date]! 그날짜의 스케쥴을 가져오고,
+          //      // 그뒤에 schedule 스케쥴을 추가해라.
+          //      // 그런데, 동일날짜가 없으면,  바로 schedule 스케쥴을 추가해라
+          //
+          //      schedule.date : [
+          //      if(schedules.containsKey(schedule.date)) ...schedules[schedule.date]!,
+          //      schedule,
+          //      ]
+          //
+          //    };
+          // });
 
           // /// schedules update 하는 방법 <쉬운거>
           // final dateExists=schedules.containsKey(schedule.date);
@@ -127,23 +127,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 ///  스케쥴 카드 사이 여유 만드는 위젯을 반환 return SizedBox(height: 16,)
                 ///  schedules 0번과 1번 인덱스 사이 sperator의  index는 당연히  0번 index
                 child: ListView.separated(
-                  itemCount: schedules.containsKey(selectedDay)
-                      ? schedules[selectedDay]!.length
-                      : 0,
+                  // itemCount: schedules.containsKey(selectedDay)
+                  //     ? schedules[selectedDay]!.length
+                  //     : 0,
+                  itemCount: 0,
                   itemBuilder: (BuildContext context, int index) {
-                    final selectedSchedule = schedules[selectedDay]!;
-
-                    final schechuleModel = selectedSchedule[index];
+                    // final selectedSchedule = schedules[selectedDay]!;
+                    //
+                    // final schechuleModel = selectedSchedule[index];
 
                     return ScheduleCard(
-                      startTime: schechuleModel.startTime,
-                      endTime: schechuleModel.endTime,
-                      content: schechuleModel.content,
+                      // startTime: schechuleModel.startTime,
+                      // endTime: schechuleModel.endTime,
+                      // content: schechuleModel.content,
+                      // color: Color(
+                      //   int.parse(
+                      //     'FF${schechuleModel.color}',
+                      //     radix: 16
+                      //   )
+                      // ),
+                      startTime: 12,
+                      endTime: 14,
+                      content: 'test_cw',
                       color: Color(
-                        int.parse(
-                          'FF${schechuleModel.color}',
-                          radix: 16
-                        )
+                          int.parse(
+                              'FF000000',
+                              radix: 16
+                          )
                       ),
                     );
                   },

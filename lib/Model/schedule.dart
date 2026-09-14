@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-class Schedule extends Table  {
+class ScheduleTable extends Table  {
   /// 들고 있을값들 먼저 리스트업하고
   /// 그다음 property, 즉 필드를 만들기
   /// -----------------------------------
@@ -30,15 +30,17 @@ class Schedule extends Table  {
 
   /// 7) 일정 생성날짜
   //final DateTime createdAt;
-  DateTimeColumn get createdAt=> dateTime().clientDefault(()=>DateTime.now().toUtc())();
+  DateTimeColumn get createdAt=> dateTime().clientDefault(
+          ()=>DateTime.now().toUtc()
+  )();
 
-  Schedule({
-    required this.id,
-    required this.startTime,
-    required this.endTime,
-    required this.content,
-    required this.date,
-    required this.color,
-    required this.createdAt,
-  });
+  // Schedule({
+  //   required this.id,
+  //   required this.startTime,
+  //   required this.endTime,
+  //   required this.content,
+  //   required this.date,
+  //   required this.color,
+  //   required this.createdAt,
+  // });
 }
