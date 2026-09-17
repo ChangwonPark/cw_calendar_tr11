@@ -10,13 +10,17 @@ part 'drift.g.dart';
 @DriftDatabase(
     tables: [ScheduleTable]
 )
+
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(driftDatabase(name: 'db'));
 
+  Future<List<ScheduleTableData>> getSchedules()=>select(scheduleTable).get();
+
+  Future<int> createSchedule(ScheduleTableCompanion data)=>into(scheduleTable).insert(data);
+
   @override
   int get schemaVersion => 1;
-}
-
+}  
 
 // import 'dart:io';
 // import 'dart:ui';
