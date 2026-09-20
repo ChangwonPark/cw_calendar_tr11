@@ -5,9 +5,11 @@ import 'package:cw_calendar_tr11/component/schedule_card.dart';
 import 'package:cw_calendar_tr11/component/today_banner.dart';
 import 'package:cw_calendar_tr11/const/color.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../Model/schedule.dart';
+import '../database/drift.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -126,40 +128,65 @@ class _HomeScreenState extends State<HomeScreen> {
                 ///  itemBulider 가 실행될때 마다 separatorBuilder 한번씩 실행
                 ///  스케쥴 카드 사이 여유 만드는 위젯을 반환 return SizedBox(height: 16,)
                 ///  schedules 0번과 1번 인덱스 사이 sperator의  index는 당연히  0번 index
-                child: ListView.separated(
-                  // itemCount: schedules.containsKey(selectedDay)
-                  //     ? schedules[selectedDay]!.length
-                  //     : 0,
-                  itemCount: 0,
-                  itemBuilder: (BuildContext context, int index) {
-                    // final selectedSchedule = schedules[selectedDay]!;
-                    //
-                    // final schechuleModel = selectedSchedule[index];
+                child: FutureBuilder<List<ScheduleTableData>>(
+                  future: GetIt.I<AppDatabase>().getSchedules(),
+                  builder: (context, snapshot) {
 
-                    return ScheduleCard(
-                      // startTime: schechuleModel.startTime,
-                      // endTime: schechuleModel.endTime,
-                      // content: schechuleModel.content,
-                      // color: Color(
-                      //   int.parse(
-                      //     'FF${schechuleModel.color}',
-                      //     radix: 16
-                      //   )
-                      // ),
-                      startTime: 12,
-                      endTime: 14,
-                      content: 'test_cw',
-                      color: Color(
-                          int.parse(
-                              'FF000000',
-                              radix: 16
-                          )
-                      ),
+                    if(snapshot.hasError){
+                      return Center(
+                        child: Text(
+                            snapshot.error.toString(),
+                        ),
+                      );
+                    }
+
+                    if(!snapshot.hasData && snapshot.connectionState
+                    ==ConnectionState.waiting){
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    final schedules=snapshot.data!;
+
+                    final selectedSchedules=
+
+                    return ListView.separated(
+                      // itemCount: schedules.containsKey(selectedDay)
+                      //     ? schedules[selectedDay]!.length
+                      //     : 0,
+                      itemCount: 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        // final selectedSchedule = schedules[selectedDay]!;
+                        //
+                        // final schechuleModel = selectedSchedule[index];
+
+                        return ScheduleCard(
+                          // startTime: schechuleModel.startTime,
+                          // endTime: schechuleModel.endTime,
+                          // content: schechuleModel.content,
+                          // color: Color(
+                          //   int.parse(
+                          //     'FF${schechuleModel.color}',
+                          //     radix: 16
+                          //   )
+                          // ),
+                          startTime: 12,
+                          endTime: 14,
+                          content: 'test_cw',
+                          color: Color(
+                              int.parse(
+                                  'FF000000',
+                                  radix: 16
+                              )
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index){
+                        return SizedBox(height: 16,);
+                      },
                     );
-                  },
-                  separatorBuilder: (BuildContext context, int index){
-                    return SizedBox(height: 16,);
-                  },
+                  }
                 ),
 
 

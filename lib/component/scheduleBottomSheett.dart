@@ -1,4 +1,7 @@
+import 'package:cw_calendar_tr11/database/drift.dart';
+import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../Model/schedule.dart';
 import '../const/color.dart';
@@ -154,12 +157,26 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
     return null;
   }
 
-  void onSavePressed(){
+  void onSavePressed() async{
 
     final isValid= formKey.currentState!.validate();
 
     if(isValid) {
       formKey.currentState!.save();
+
+     final database= GetIt.I<AppDatabase>();
+
+     await database.createSchedule(
+       ScheduleTableCompanion(
+         startTime: Value(startTime!),
+         endTime: Value(endTime!),
+         content: Value(content!),
+         color: Value(selectedColor),
+         date: Value(widget.selectedDay)
+       )
+     );
+
+     Navigator.of(context).pop();
 
       // final schedule = ScheduleTable(
       //   id:999,
