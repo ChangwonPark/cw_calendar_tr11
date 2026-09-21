@@ -149,17 +149,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     final schedules=snapshot.data!;
 
-                    final selectedSchedules=
+                    final selectedSchedules=schedules.where(
+                        (e)=>e.date.isAtSameMomentAs(selectedDay)
+                    ).toList();
 
                     return ListView.separated(
                       // itemCount: schedules.containsKey(selectedDay)
                       //     ? schedules[selectedDay]!.length
                       //     : 0,
-                      itemCount: 0,
+                      itemCount: selectedSchedules.length,
                       itemBuilder: (BuildContext context, int index) {
                         // final selectedSchedule = schedules[selectedDay]!;
                         //
                         // final schechuleModel = selectedSchedule[index];
+
+                        final schedule=selectedSchedules[index];
 
                         return ScheduleCard(
                           // startTime: schechuleModel.startTime,
@@ -171,12 +175,23 @@ class _HomeScreenState extends State<HomeScreen> {
                           //     radix: 16
                           //   )
                           // ),
-                          startTime: 12,
-                          endTime: 14,
-                          content: 'test_cw',
+
+                          // startTime: 12,
+                          // endTime: 14,
+                          // content: 'test_cw',
+                          // color: Color(
+                          //     int.parse(
+                          //         'FF000000',
+                          //         radix: 16
+                          //     )
+                          // ),
+
+                          startTime: schedule.startTime,
+                          endTime: schedule.endTime,
+                          content: schedule.content,
                           color: Color(
                               int.parse(
-                                  'FF000000',
+                                  'FF${schedule.color}',
                                   radix: 16
                               )
                           ),
