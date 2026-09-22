@@ -62,9 +62,13 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           );
 
-          if(schedule==null){
-            return;
-          }
+          setState(() {
+
+          });
+
+          // if(schedule==null){
+          //   return;
+          // }
 
           /// schedules update 하는 방법 <고난이도>
           // setState(() {
@@ -79,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //      // 그뒤에 schedule 스케쥴을 추가해라.
           //      // 그런데, 동일날짜가 없으면,  바로 schedule 스케쥴을 추가해라
           //
-          //      schedule.date : [
+          //      schedule.date : [080808
           //      if(schedules.containsKey(schedule.date)) ...schedules[schedule.date]!,
           //      schedule,
           //      ]
