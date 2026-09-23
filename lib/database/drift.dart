@@ -14,7 +14,18 @@ part 'drift.g.dart';
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(driftDatabase(name: 'db'));
 
-  Future<List<ScheduleTableData>> getSchedules()=>select(scheduleTable).get();
+  //Future<List<ScheduleTableData>> getSchedules()=>select(scheduleTable).get();
+
+  Future<List<ScheduleTableData>> getSchedules(
+      DateTime  date,
+      ) {
+        return  (select(scheduleTable)..where((table)=>table.date.equals(date))).get();
+
+        // final selectQuery=select(scheduleTable).where((tbl)=>null);
+        //   final  selectQuery=select(scheduleTable)
+        //   selectQuery.where((table)=>table.date.equals(date));
+        //   return selectQuery.get();
+        }
 
   Future<int> createSchedule(ScheduleTableCompanion data)=>into(scheduleTable).insert(data);
 

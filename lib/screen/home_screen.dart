@@ -133,7 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ///  스케쥴 카드 사이 여유 만드는 위젯을 반환 return SizedBox(height: 16,)
                 ///  schedules 0번과 1번 인덱스 사이 sperator의  index는 당연히  0번 index
                 child: FutureBuilder<List<ScheduleTableData>>(
-                  future: GetIt.I<AppDatabase>().getSchedules(),
+                  future: GetIt.I<AppDatabase>().getSchedules(
+                    selectedDay
+                  ),
                   builder: (context, snapshot) {
 
                     if(snapshot.hasError){
@@ -153,21 +155,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     final schedules=snapshot.data!;
 
-                    final selectedSchedules=schedules.where(
-                        (e)=>e.date.isAtSameMomentAs(selectedDay)
-                    ).toList();
+                    // final selectedSchedules=schedules.where(
+                    //     (e)=>e.date.isAtSameMomentAs(selectedDay)
+                    // ).toList();
 
                     return ListView.separated(
                       // itemCount: schedules.containsKey(selectedDay)
                       //     ? schedules[selectedDay]!.length
                       //     : 0,
-                      itemCount: selectedSchedules.length,
+                      itemCount: schedules.length,
                       itemBuilder: (BuildContext context, int index) {
                         // final selectedSchedule = schedules[selectedDay]!;
                         //
                         // final schechuleModel = selectedSchedule[index];
 
-                        final schedule=selectedSchedules[index];
+                        final schedule=schedules[index];
 
                         return ScheduleCard(
                           // startTime: schechuleModel.startTime,
