@@ -27,7 +27,19 @@ class AppDatabase extends _$AppDatabase {
         //   return selectQuery.get();
         }
 
-  Future<int> createSchedule(ScheduleTableCompanion data)=>into(scheduleTable).insert(data);
+  Stream<List<ScheduleTableData>> streamSchedules(
+      DateTime date,
+      ) =>  (select(scheduleTable)..where((table)=>table.date.equals(date))).watch();
+
+      Future<int> createSchedule(ScheduleTableCompanion data)=>into(scheduleTable).insert(data);
+
+
+
+  Future<int> removeSchedule(int id)=> (delete(scheduleTable)
+      ..where(
+  (table) => table.id.equals(id),
+      ))
+  .go();
 
   @override
   int get schemaVersion => 1;

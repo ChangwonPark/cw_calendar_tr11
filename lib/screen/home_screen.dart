@@ -171,35 +171,62 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         final schedule=schedules[index];
 
-                        return ScheduleCard(
-                          // startTime: schechuleModel.startTime,
-                          // endTime: schechuleModel.endTime,
-                          // content: schechuleModel.content,
-                          // color: Color(
-                          //   int.parse(
-                          //     'FF${schechuleModel.color}',
-                          //     radix: 16
-                          //   )
-                          // ),
+                        return Dismissible(
+                          key: ObjectKey(schedule.id),
+                          direction: DismissDirection.endToStart,
+                          // onDismissed: (DismissDirection direction) async {
+                          //   await GetIt.I<AppDatabase>().removeSchedule(
+                          //     schedule.id
+                          //   );
+                          //
+                          //   setState(() {
+                          //
+                          //   });
+                          //
+                          // },
 
-                          // startTime: 12,
-                          // endTime: 14,
-                          // content: 'test_cw',
-                          // color: Color(
-                          //     int.parse(
-                          //         'FF000000',
-                          //         radix: 16
-                          //     )
-                          // ),
+                          confirmDismiss: (DismissDirection directioni) async{
+                            GetIt.I<AppDatabase>().removeSchedule(
+                              schedule.id
+                            );
 
-                          startTime: schedule.startTime,
-                          endTime: schedule.endTime,
-                          content: schedule.content,
-                          color: Color(
-                              int.parse(
-                                  'FF${schedule.color}',
-                                  radix: 16
-                              )
+                            setState(() {
+
+                            });
+
+                            return true;
+
+                          },
+                          child: ScheduleCard(
+                            // startTime: schechuleModel.startTime,
+                            // endTime: schechuleModel.endTime,
+                            // content: schechuleModel.content,
+                            // color: Color(
+                            //   int.parse(
+                            //     'FF${schechuleModel.color}',
+                            //     radix: 16
+                            //   )
+                            // ),
+                          
+                            // startTime: 12,
+                            // endTime: 14,
+                            // content: 'test_cw',
+                            // color: Color(
+                            //     int.parse(
+                            //         'FF000000',
+                            //         radix: 16
+                            //     )
+                            // ),
+                          
+                            startTime: schedule.startTime,
+                            endTime: schedule.endTime,
+                            content: schedule.content,
+                            color: Color(
+                                int.parse(
+                                    'FF${schedule.color}',
+                                    radix: 16
+                                )
+                            ),
                           ),
                         );
                       },

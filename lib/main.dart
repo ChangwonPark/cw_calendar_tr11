@@ -18,8 +18,8 @@ void main() async{
   //214.일정 생성하기, DI 주입
   GetIt.I.registerSingleton<AppDatabase> (database);
 
-  final resp=await database.getSchedules();
-  print(resp);
+  // final resp=await database.getSchedules();
+  // print(resp);
 
 
   //  213.Insert & Select 테스트하기(createSchedule, getSchedules)
