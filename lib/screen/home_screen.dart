@@ -62,9 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           );
 
-          setState(() {
-
-          });
+          // setState(() {
+          //
+          // });
 
           // if(schedule==null){
           //   return;
@@ -132,11 +132,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ///  itemBulider 가 실행될때 마다 separatorBuilder 한번씩 실행
                 ///  스케쥴 카드 사이 여유 만드는 위젯을 반환 return SizedBox(height: 16,)
                 ///  schedules 0번과 1번 인덱스 사이 sperator의  index는 당연히  0번 index
-                child: FutureBuilder<List<ScheduleTableData>>(
-                  future: GetIt.I<AppDatabase>().getSchedules(
-                    selectedDay
-                  ),
-                  builder: (context, snapshot) {
+
+                // child: FutureBuilder<List<ScheduleTableData>>(
+                //   future: GetIt.I<AppDatabase>().getSchedules(
+                //     selectedDay
+                //   ),
+
+                  child: StreamBuilder(
+                      stream: GetIt.I<AppDatabase>().streamSchedules(
+                        selectedDay
+                      ),
+                      builder: (context, snapshot) {
 
                     if(snapshot.hasError){
                       return Center(
@@ -146,12 +152,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     }
 
-                    if(!snapshot.hasData && snapshot.connectionState
-                    ==ConnectionState.waiting){
+                    // if(!snapshot.hasData && snapshot.connectionState
+                    // ==ConnectionState.waiting){
+                    //   return Center(
+                    //     child: CircularProgressIndicator(),
+                    //   );
+                    // }
+
+                    if(snapshot.data==null){
                       return Center(
                         child: CircularProgressIndicator(),
                       );
                     }
+
+
 
                     final schedules=snapshot.data!;
 
@@ -185,18 +199,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           //
                           // },
 
-                          confirmDismiss: (DismissDirection directioni) async{
+                          // confirmDismiss: (DismissDirection directioni) async{
+                          //   GetIt.I<AppDatabase>().removeSchedule(
+                          //     schedule.id
+                          //   );
+                          //
+                          //   // setState(() {
+                          //   //
+                          //   // });
+                          //
+                          //   return true;
+                          //
+                          // },
+
+
+                          onDismissed: (DismissDirection direction){
                             GetIt.I<AppDatabase>().removeSchedule(
                               schedule.id
                             );
-
-                            setState(() {
-
-                            });
-
-                            return true;
-
                           },
+
+
+
                           child: ScheduleCard(
                             // startTime: schechuleModel.startTime,
                             // endTime: schechuleModel.endTime,
