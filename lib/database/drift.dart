@@ -35,7 +35,18 @@ class AppDatabase extends _$AppDatabase {
         ..where(
                 (table)=>table.date.equals(date)
         )
-          ..orderBy(clauses)
+        ..orderBy(
+          [
+            (table)=> OrderingTerm(
+                expression: table.startTime,
+                mode: OrderingMode.asc
+            ),
+            (table)=> OrderingTerm(
+            expression: table.endTime,
+            mode: OrderingMode.desc
+            ),
+          ]
+        )
       ).watch();
 
 
