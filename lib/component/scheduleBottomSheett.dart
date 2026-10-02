@@ -9,11 +9,14 @@ import 'custom_text_field.dart';
 
 class Schedulebottomsheett extends StatefulWidget {
 
+  final int? id;
+
   final DateTime selectedDay;
 
   const Schedulebottomsheett({
+    required this.selectedDay,
+    this.id,
     super.key,
-    required this.selectedDay
   });
 
   @override

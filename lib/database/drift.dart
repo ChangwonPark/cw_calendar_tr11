@@ -15,6 +15,11 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(driftDatabase(name: 'db'));
 
 
+  //update 함수 작업하기
+  Future<int> updateScheduleById(int id, ScheduleTableCompanion data)=>
+      (update(scheduleTable)..where((table)=>table.id.equals(id))).write(data);
+
+
 
   //Future<List<ScheduleTableData>> getSchedules()=>select(scheduleTable).get();
 
