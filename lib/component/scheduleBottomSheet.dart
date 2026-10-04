@@ -7,23 +7,23 @@ import '../Model/schedule.dart';
 import '../const/color.dart';
 import 'custom_text_field.dart';
 
-class Schedulebottomsheett extends StatefulWidget {
+class ScheduleBottomSheet extends StatefulWidget {
 
   final int? id;
 
   final DateTime selectedDay;
 
-  const Schedulebottomsheett({
+  const ScheduleBottomSheet({
     required this.selectedDay,
     this.id,
     super.key,
   });
 
   @override
-  State<Schedulebottomsheett> createState() => _SchedulebottomsheettState();
+  State<ScheduleBottomSheet> createState() => _ScheduleBottomSheetState();
 }
 
-class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
+class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
   final GlobalKey<FormState> formKey=GlobalKey();
 
   int? startTime;
@@ -37,46 +37,51 @@ class _SchedulebottomsheettState extends State<Schedulebottomsheett> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[200],
-      height: 400,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                _Time(
-                  onStartSaved: onStartTimeSaved,
-                  onEndSaved: onEndTimeSaved,
-                  onStartValidate: onStartTimeValidated,
-                  onEndValidate: onEndTimeValidated,
+    return FutureBuilder(
+      future: widget.id==null ? null : GetIt.I<AppDatabase>().getScheduleById(widget.id!),
+      builder: (context,snapshot) {
+        return Container(
+          color: Colors.grey[200],
+          height: 400,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    _Time(
+                      onStartSaved: onStartTimeSaved,
+                      onEndSaved: onEndTimeSaved,
+                      onStartValidate: onStartTimeValidated,
+                      onEndValidate: onEndTimeValidated,
+                    ),
+                    SizedBox(height: 16.0),
+                    _Contents(
+                      onSaved: onContentSaved,
+                      onValidate: onContentValidated,
+                    ),
+                    SizedBox(height: 16.0),
+                    _Categories(
+                      selectedColor: selectedColor,
+                      onTap: (String color) {
+                        //print('onTap');
+                        setState(() {
+                          selectedColor = color;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 8.0),
+                    _SaveButton(
+                      onPressed: onSavePressed,
+                    ),
+                  ],
                 ),
-                SizedBox(height: 16.0),
-                _Contents(
-                  onSaved: onContentSaved,
-                  onValidate: onContentValidated,
-                ),
-                SizedBox(height: 16.0),
-                _Categories(
-                  selectedColor: selectedColor,
-                  onTap: (String color) {
-                    //print('onTap');
-                    setState(() {
-                      selectedColor = color;
-                    });
-                  },
-                ),
-                SizedBox(height: 8.0),
-                _SaveButton(
-                  onPressed: onSavePressed,
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 

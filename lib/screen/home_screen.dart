@@ -1,6 +1,6 @@
 import 'package:cw_calendar_tr11/component/calendar.dart';
 import 'package:cw_calendar_tr11/component/custom_text_field.dart';
-import 'package:cw_calendar_tr11/component/scheduleBottomSheett.dart';
+import 'package:cw_calendar_tr11/component/scheduleBottomSheet.dart';
 import 'package:cw_calendar_tr11/component/schedule_card.dart';
 import 'package:cw_calendar_tr11/component/today_banner.dart';
 import 'package:cw_calendar_tr11/const/color.dart';
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           final schedule = await showModalBottomSheet<ScheduleTable>(
             context: context,
             builder: (_) {
-              return Schedulebottomsheett(
+              return ScheduleBottomSheet(
                 selectedDay : selectedDay
               );
             },

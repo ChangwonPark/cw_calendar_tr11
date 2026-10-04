@@ -14,6 +14,10 @@ part 'drift.g.dart';
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(driftDatabase(name: 'db'));
 
+  // 기존 일정 update하기
+  Future<ScheduleTableData> getScheduleById(int id)=>
+      (select(scheduleTable)..where((table)=>table.id.equals(id))).getSingle();
+
 
   //update 함수 작업하기
   Future<int> updateScheduleById(int id, ScheduleTableCompanion data)=>
