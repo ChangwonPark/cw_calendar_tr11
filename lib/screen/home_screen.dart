@@ -56,9 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           final schedule = await showModalBottomSheet<ScheduleTable>(
             context: context,
             builder: (_) {
-              return ScheduleBottomSheet(
-                selectedDay : selectedDay
-              );
+              return ScheduleBottomSheet(selectedDay: selectedDay);
             },
           );
 
@@ -107,7 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
           //     schedule.date:existingSchedules,
           //   };
           // });
-
         },
         backgroundColor: primaryColor,
         child: Icon(Icons.add, color: Colors.white),
@@ -137,19 +134,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 //   future: GetIt.I<AppDatabase>().getSchedules(
                 //     selectedDay
                 //   ),
-
-                  child: StreamBuilder(
-                      stream: GetIt.I<AppDatabase>().streamSchedules(
-                        selectedDay
-                      ),
-                      builder: (context, snapshot) {
-
-                    if(snapshot.hasError){
-                      return Center(
-                        child: Text(
-                            snapshot.error.toString(),
-                        ),
-                      );
+                child: StreamBuilder(
+                  stream: GetIt.I<AppDatabase>().streamSchedules(selectedDay),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text(snapshot.error.toString()));
                     }
 
                     // if(!snapshot.hasData && snapshot.connectionState
@@ -159,15 +148,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     //   );
                     // }
 
-                    if(snapshot.data==null){
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
+                    if (snapshot.data == null) {
+                      return Center(child: CircularProgressIndicator());
                     }
 
-
-
-                    final schedules=snapshot.data!;
+                    final schedules = snapshot.data!;
 
                     // final selectedSchedules=schedules.where(
                     //     (e)=>e.date.isAtSameMomentAs(selectedDay)
@@ -183,11 +168,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         //
                         // final schechuleModel = selectedSchedule[index];
 
-                        final schedule=schedules[index];
+                        final schedule = schedules[index];
 
                         return Dismissible(
                           key: ObjectKey(schedule.id),
                           direction: DismissDirection.endToStart,
+
                           // onDismissed: (DismissDirection direction) async {
                           //   await GetIt.I<AppDatabase>().removeSchedule(
                           //     schedule.id
@@ -211,58 +197,56 @@ class _HomeScreenState extends State<HomeScreen> {
                           //   return true;
                           //
                           // },
-
-
-                          onDismissed: (DismissDirection direction){
-                            GetIt.I<AppDatabase>().removeSchedule(
-                              schedule.id
-                            );
+                          onDismissed: (DismissDirection direction) {
+                            GetIt.I<AppDatabase>().removeSchedule(schedule.id);
                           },
 
+                          child: GestureDetector(
+                            onTap: () async {
+                              await showModalBottomSheet<ScheduleTable>(
+                                context: context,
+                                builder: (_) {
+                                  return ScheduleBottomSheet(
+                                    selectedDay: selectedDay,
+                                    id: schedule.id,
+                                  );
+                                },
+                              );
+                            },
+                            child: ScheduleCard(
+                              // startTime: schechuleModel.startTime,
+                              // endTime: schechuleModel.endTime,
+                              // content: schechuleModel.content,
+                              // color: Color(
+                              //   int.parse(
+                              //     'FF${schechuleModel.color}',
+                              //     radix: 16
+                              //   )
+                              // ),
 
-
-                          child: ScheduleCard(
-                            // startTime: schechuleModel.startTime,
-                            // endTime: schechuleModel.endTime,
-                            // content: schechuleModel.content,
-                            // color: Color(
-                            //   int.parse(
-                            //     'FF${schechuleModel.color}',
-                            //     radix: 16
-                            //   )
-                            // ),
-                          
-                            // startTime: 12,
-                            // endTime: 14,
-                            // content: 'test_cw',
-                            // color: Color(
-                            //     int.parse(
-                            //         'FF000000',
-                            //         radix: 16
-                            //     )
-                            // ),
-                          
-                            startTime: schedule.startTime,
-                            endTime: schedule.endTime,
-                            content: schedule.content,
-                            color: Color(
-                                int.parse(
-                                    'FF${schedule.color}',
-                                    radix: 16
-                                )
+                              // startTime: 12,
+                              // endTime: 14,
+                              // content: 'test_cw',
+                              // color: Color(
+                              //     int.parse(
+                              //         'FF000000',
+                              //         radix: 16
+                              //     )
+                              // ),
+                              startTime: schedule.startTime,
+                              endTime: schedule.endTime,
+                              content: schedule.content,
+                              color: Color(int.parse('FF${schedule.color}', radix: 16)),
                             ),
                           ),
                         );
                       },
-                      separatorBuilder: (BuildContext context, int index){
-                        return SizedBox(height: 16,);
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(height: 16);
                       },
                     );
-                  }
+                  },
                 ),
-
-
-
 
                 ///  ListView.builder 사용하여 Lazy loading 하는 방법
                 // 하드웨어 적게 사용하고 속도도 빨라요
@@ -291,7 +275,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 //   },
                 // ),
 
-
                 /// ListView 사용하여 한방에 로딩 하기 로직
                 //ListView 의 문제점은 children에 있는 위젯들을 한번에 그려내고,
                 // 그리고, 그것을 메모리에 다 들고 있습니다.
@@ -314,9 +297,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 //   ).toList()
                 //       : []
                 // ),
-
-
-
               ),
             ),
           ],

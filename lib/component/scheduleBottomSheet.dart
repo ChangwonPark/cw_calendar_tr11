@@ -30,16 +30,44 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
   int? endTime;
   String? content;
 
-
-
-
   String selectedColor = categoryColors.first;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    initCategory();
+  }
+
+  initCategory() async {
+    if(widget.id!=null) {
+      final resp = await GetIt.I<AppDatabase>().getScheduleById(widget.id!);
+
+      setState(() {
+        selectedColor = resp.color;
+      });
+
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: widget.id==null ? null : GetIt.I<AppDatabase>().getScheduleById(widget.id!),
       builder: (context,snapshot) {
+
+        if(widget.id !=null &&
+            snapshot.connectionState == ConnectionState.waiting &&
+            !snapshot.hasData){
+          return Center(child: CircularProgressIndicator(),
+          );
+        }
+
+        final hasData=snapshot.hasData;
+        final data=snapshot.data;
+
         return Container(
           color: Colors.grey[200],
           height: 400,
@@ -55,11 +83,15 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
                       onEndSaved: onEndTimeSaved,
                       onStartValidate: onStartTimeValidated,
                       onEndValidate: onEndTimeValidated,
+                      startTimeinitValue: data?.startTime.toString(),
+                      endTimeinitValue: data?.endTime.toString(),;
+
                     ),
                     SizedBox(height: 16.0),
                     _Contents(
                       onSaved: onContentSaved,
                       onValidate: onContentValidated,
+                      initialValue: data?.content,
                     ),
                     SizedBox(height: 16.0),
                     _Categories(
@@ -174,15 +206,30 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
 
      final database= GetIt.I<AppDatabase>();
 
-     await database.createSchedule(
-       ScheduleTableCompanion(
-         startTime: Value(startTime!),
-         endTime: Value(endTime!),
-         content: Value(content!),
-         color: Value(selectedColor),
-         date: Value(widget.selectedDay)
-       )
-     );
+     if(widget.id==null){
+       await database.createSchedule(
+           ScheduleTableCompanion(
+               startTime: Value(startTime!),
+               endTime: Value(endTime!),
+               content: Value(content!),
+               color: Value(selectedColor),
+               date: Value(widget.selectedDay)
+           )
+       );
+     }else{
+       await database.updateScheduleById(
+         widget.id!,
+           ScheduleTableCompanion(
+               startTime: Value(startTime!),
+               endTime: Value(endTime!),
+               content: Value(content!),
+               color: Value(selectedColor),
+               date: Value(widget.selectedDay)
+           )
+       );
+     }
+
+
 
      Navigator.of(context).pop();
 
@@ -211,6 +258,8 @@ class _Time extends StatelessWidget {
   final FormFieldSetter<String> onEndSaved;
   final FormFieldValidator<String> onStartValidate;
   final FormFieldValidator<String> onEndValidate;
+  final String? startTimeinitValue;
+  final String? endTimeinitValue;
 
   //final GlobalKey<FormState> formKey = GlobalKey();
 
@@ -220,6 +269,8 @@ class _Time extends StatelessWidget {
     required this.onEndSaved,
     required this.onStartValidate,
     required this.onEndValidate,
+    this.startTimeinitValue,
+    this.endTimeinitValue,
   });
 
   /// 이제 개념 익혔으면, onSaved, validator 위로 올리기
@@ -235,6 +286,7 @@ class _Time extends StatelessWidget {
                 label: '시작시간',
                 onSaved: onStartSaved,
                 validator: onStartValidate,
+                initialValue: startTimeinitValue,
               ),
             ),
             SizedBox(width: 16.0),
@@ -243,6 +295,7 @@ class _Time extends StatelessWidget {
                 label: '종료시간',
                 onSaved: onEndSaved,
                 validator: onEndValidate,
+                initialValue: endTimeinitValue,
               ),
             ),
           ],
@@ -309,11 +362,13 @@ class _Time extends StatelessWidget {
 class _Contents extends StatelessWidget {
   final FormFieldSetter<String> onSaved;
   final FormFieldValidator<String> onValidate;
+  final String? initialValue;
 
   const _Contents({
     super.key,
     required this.onSaved,
     required this.onValidate,
+    this.initialValue,
   });
 
   @override
@@ -324,6 +379,7 @@ class _Contents extends StatelessWidget {
         expand: true,
         onSaved: onSaved,
         validator: onValidate,
+        initialValue: initialValue,
       ),
     );
   }

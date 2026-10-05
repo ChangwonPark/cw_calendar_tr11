@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final String label;
   final FormFieldSetter<String> onSaved;
   final FormFieldValidator<String> validator;
+  final String? initialValue;
 
   const CustomTextField({
     super.key,
@@ -16,6 +17,7 @@ class CustomTextField extends StatelessWidget {
     this.expand=false,
     required this.onSaved,
     required this.validator,
+    this.initialValue,
   });
 
   @override
@@ -62,6 +64,7 @@ class CustomTextField extends StatelessWidget {
       maxLines: expand ? null : 1,
       minLines: expand ? null : 1,
       expands: expand,
+      initialValue: ,
     );
   }
 }
