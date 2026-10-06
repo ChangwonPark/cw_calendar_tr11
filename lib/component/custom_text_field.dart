@@ -64,7 +64,7 @@ class CustomTextField extends StatelessWidget {
       maxLines: expand ? null : 1,
       minLines: expand ? null : 1,
       expands: expand,
-      initialValue: ,
+      initialValue: initialValue,
     );
   }
 }

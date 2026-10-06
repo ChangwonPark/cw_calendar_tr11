@@ -2,13 +2,17 @@
 
 import 'package:drift/drift.dart'; //
 import 'package:drift_flutter/drift_flutter.dart';//
+import '../Model/category.dart';
 import '../Model/schedule.dart'; //
 
 part 'drift.g.dart';
 
 
 @DriftDatabase(
-    tables: [ScheduleTable]
+    tables: [
+      ScheduleTable,
+      CategoryTable,
+    ]
 )
 
 class AppDatabase extends _$AppDatabase {

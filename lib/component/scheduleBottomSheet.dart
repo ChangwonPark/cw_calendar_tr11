@@ -84,7 +84,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
                       onStartValidate: onStartTimeValidated,
                       onEndValidate: onEndTimeValidated,
                       startTimeinitValue: data?.startTime.toString(),
-                      endTimeinitValue: data?.endTime.toString(),;
+                      endTimeinitValue: data?.endTime.toString(),
 
                     ),
                     SizedBox(height: 16.0),
