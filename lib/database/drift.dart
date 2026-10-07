@@ -1,5 +1,6 @@
 
 
+import 'package:cw_calendar_tr11/Model/schedule_with_category.dart';
 import 'package:drift/drift.dart'; //
 import 'package:drift_flutter/drift_flutter.dart';//
 import '../Model/category.dart';
@@ -43,26 +44,32 @@ class AppDatabase extends _$AppDatabase {
         }
 
 
-  Stream<List<ScheduleTableData>> streamSchedules(
+  Stream<List<ScheduleWithCategory>> streamSchedules(
       DateTime date,
-      ) =>  
-      (select(scheduleTable)
-        ..where(
-                (table)=>table.date.equals(date)
-        )
-        ..orderBy(
-          [
-            (table)=> OrderingTerm(
-                expression: table.startTime,
-                mode: OrderingMode.asc
-            ),
-            (table)=> OrderingTerm(
-            expression: table.endTime,
-            mode: OrderingMode.desc
-            ),
-          ]
-        )
-      ).watch();
+      ) {
+
+    final query=select(scheduleTable)
+
+
+    // (select(scheduleTable)
+    //   ..where(
+    //           (table)=>table.date.equals(date)
+    //   )
+    //   ..orderBy(
+    //       [
+    //             (table)=> OrderingTerm(
+    //             expression: table.startTime,
+    //             mode: OrderingMode.asc
+    //         ),
+    //             (table)=> OrderingTerm(
+    //             expression: table.endTime,
+    //             mode: OrderingMode.desc
+    //         ),
+    //       ]
+    //   )
+    // ).watch();
+  }
+
 
 
 
